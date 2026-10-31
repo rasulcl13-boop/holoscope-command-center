@@ -1,0 +1,513 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "P56 POV-server",
+        "description": "Adres van de P56 POV Display add-on (p56-server). Met de add-on op deze Home Assistant: 127.0.0.1 en poort 8765.",
+        "data": {
+          "host": "Host",
+          "port": "Poort"
+        },
+        "data_description": {
+          "host": "Hostnaam of IP-adres waar p56-server draait.",
+          "port": "HTTP-poort van p56-server (standaard 8765)."
+        }
+      },
+      "hassio_confirm": {
+        "title": "P56 POV via add-on",
+        "description": "Home Assistant koppelen aan de P56 POV-fans van de add-on {addon}?"
+      },
+      "reconfigure": {
+        "title": "P56 POV-server",
+        "data": {
+          "host": "Host",
+          "port": "Poort"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "p56-server is op dit adres niet bereikbaar.",
+      "old_server": "Dit is de 1.x add-on. Werk de P56 POV Display add-on bij naar 2.0 of nieuwer.",
+      "unknown": "Onverwachte fout."
+    },
+    "abort": {
+      "already_configured": "Deze server is al ingesteld.",
+      "reconfigure_successful": "Opgeslagen."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Standaarden voor tekst",
+        "data": {
+          "mode": "Hoe tonen",
+          "show_seconds": "Tekst-entiteit: weghalen na (0 = laten staan)",
+          "notify_seconds": "Meldingen: tonen gedurende",
+          "color": "Tekstkleur",
+          "background": "Achtergrondkleur"
+        },
+        "data_description": {
+          "mode": "Opslaan op de fan (upload) of live streamen zonder op te slaan (cast).",
+          "color": "#rrggbb, r,g,b of een kleurnaam.",
+          "background": "#rrggbb, r,g,b of een kleurnaam."
+        }
+      }
+    }
+  },
+  "selector": {
+    "mode": {
+      "options": {
+        "upload": "Opslaan op de fan",
+        "cast": "Live (niet opslaan)"
+      }
+    },
+    "style": {
+      "options": {
+        "alert": "Alarm (rood)",
+        "warning": "Waarschuwing (oranje)",
+        "info": "Info (blauw)",
+        "success": "Klaar (groen)",
+        "price": "Prijs (kleur naar waarde)",
+        "clock": "Klok"
+      }
+    },
+    "ai_kind": {
+      "options": {
+        "still": "Stilstaand",
+        "spin": "Draaiend om de eigen as",
+        "3d": "Echt 3D-model (ComfyUI, ~2 min)"
+      }
+    },
+    "ai_style": {
+      "options": {
+        "free": "Zoals beschreven",
+        "photo": "Foto",
+        "3d": "3D-render",
+        "cartoon": "Cartoon",
+        "anime": "Anime",
+        "painting": "Schilderij",
+        "watercolor": "Aquarel",
+        "pixel": "Pixel art",
+        "neon": "Neon",
+        "line": "Lijntekening",
+        "comic": "Strip"
+      }
+    }
+  },
+  "entity": {
+    "light": {
+      "display": {
+        "name": "Beeld"
+      }
+    },
+    "switch": {
+      "playing": {
+        "name": "Afspelen"
+      },
+      "breath": {
+        "name": "Ademlicht"
+      },
+      "autostart": {
+        "name": "Starten bij stroom"
+      }
+    },
+    "select": {
+      "file": {
+        "name": "Bestand"
+      },
+      "repeat": {
+        "name": "Herhalen",
+        "state": {
+          "all": "Alle bestanden",
+          "one": "Eén bestand"
+        }
+      }
+    },
+    "number": {
+      "angle": {
+        "name": "Beeldhoek"
+      },
+      "volume": {
+        "name": "Volume"
+      }
+    },
+    "sensor": {
+      "current_file": {
+        "name": "Speelt nu"
+      },
+      "file_count": {
+        "name": "Bestanden"
+      },
+      "ip": {
+        "name": "IP-adres"
+      },
+      "last_error": {
+        "name": "Laatste fout"
+      },
+      "fans_connected": {
+        "name": "Verbonden fans"
+      },
+      "last_activity": {
+        "name": "Laatste activiteit"
+      }
+    },
+    "button": {
+      "refresh": {
+        "name": "Verversen"
+      },
+      "delete_current": {
+        "name": "Huidig bestand wissen"
+      }
+    },
+    "text": {
+      "text": {
+        "name": "Tekst"
+      }
+    },
+    "notify": {
+      "message": {
+        "name": "Melding"
+      }
+    },
+    "image": {
+      "shown": {
+        "name": "Getoond",
+        "state_attributes": {
+          "live": {
+            "name": "Live op de fan",
+            "state": {
+              "true": "Ja",
+              "false": "Nee"
+            }
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "server_unreachable": {
+      "message": "P56-server niet bereikbaar: {error}"
+    },
+    "command_failed": {
+      "message": "P56-opdracht mislukt: {error}"
+    },
+    "fan_offline": {
+      "message": "De fan is niet verbonden."
+    },
+    "not_loaded": {
+      "message": "Er is geen P56 POV-server ingesteld."
+    },
+    "unknown_device": {
+      "message": "Apparaat {device} is geen P56 POV-apparaat."
+    },
+    "file_not_on_fan": {
+      "message": "Geen bestand {name} op de fan."
+    },
+    "path_not_allowed": {
+      "message": "{path} staat niet in allowlist_external_dirs."
+    },
+    "file_not_found": {
+      "message": "Bestand {path} niet gevonden."
+    },
+    "file_too_large": {
+      "message": "{path} is te groot."
+    },
+    "download_failed": {
+      "message": "Downloaden van {url} mislukt: {error}"
+    },
+    "media_unresolvable": {
+      "message": "Media {media} niet te vinden."
+    },
+    "one_source": {
+      "message": "Geef precies één van pad, url, camera of media."
+    },
+    "no_source": {
+      "message": "Geen afbeelding opgegeven."
+    },
+    "value_needs_range": {
+      "message": "Geef value_min en value_max samen met value."
+    },
+    "video_needs_ffmpeg": {
+      "message": "Voor video's is ffmpeg nodig; dat is niet gevonden."
+    },
+    "video_failed": {
+      "message": "Video kon niet omgezet worden: {error}"
+    }
+  },
+  "services": {
+    "show_text": {
+      "name": "Tekst tonen",
+      "description": "Toont tekst op de fan, passend gemaakt voor het ronde beeld, eventueel met een icoon, een kant-en-klare stijl en een kleur die een waarde volgt.",
+      "fields": {
+        "device_id": {
+          "name": "Fans",
+          "description": "Op welke fans (leeg: alle)."
+        },
+        "text": {
+          "name": "Tekst",
+          "description": "De tekst; een nieuwe regel begint een nieuwe regel. Optioneel bij een icoon of stijl (de klokstijl toont de huidige tijd)."
+        },
+        "color": {
+          "name": "Kleur",
+          "description": "Tekstkleur."
+        },
+        "background": {
+          "name": "Achtergrond",
+          "description": "Achtergrondkleur."
+        },
+        "font_size": {
+          "name": "Maximale lettergrootte",
+          "description": "Bovengrens in pixels (0: zo groot als past)."
+        },
+        "show_seconds": {
+          "name": "Duur",
+          "description": "Een melding: zoveel seconden te zien, de fan herhaalt intussen alleen deze en gaat daarna terug naar wat hij speelde; een fan die uit stond gaat weer uit. 0: laten staan (live: 10 s)."
+        },
+        "priority": {
+          "name": "Prioriteit",
+          "description": "Voor een melding met een duur: een lagere wacht tot de huidige klaar is, een hogere onderbreekt hem (die komt daarna terug). Standaard 0."
+        },
+        "mode": {
+          "name": "Modus",
+          "description": "Opslaan op de fan, of live tonen zonder opslaan."
+        },
+        "name": {
+          "name": "Bestandsnaam",
+          "description": "Naam op de fan; dezelfde naam vervangt het eerdere bestand."
+        },
+        "style": {
+          "name": "Stijl",
+          "description": "Kant-en-klaar uiterlijk met kleuren, icoon en een ring langs de rand."
+        },
+        "icon": {
+          "name": "Icoon",
+          "description": "Icoon boven de tekst (of los), bv. mdi:washing-machine."
+        },
+        "value": {
+          "name": "Waarde",
+          "description": "Kleurt de tekst van groen (bij het minimum) via geel naar rood (bij het maximum)."
+        },
+        "value_min": {
+          "name": "Minimum",
+          "description": "Waarde die groen is."
+        },
+        "value_max": {
+          "name": "Maximum",
+          "description": "Waarde die rood is."
+        },
+        "invert_colors": {
+          "name": "Kleuren omdraaien",
+          "description": "Rood bij het minimum en groen bij het maximum."
+        },
+        "gauge": {
+          "name": "Meterring",
+          "description": "Een ring langs de rand die volloopt als een meter, van value_min tot value_max."
+        },
+        "ring": {
+          "name": "Ring",
+          "description": "Gekleurde ring langs de rand (stijlen hebben er al een)."
+        },
+        "icon_color": {
+          "name": "Icoonkleur",
+          "description": "Kleur van het icoon (standaard: uit de stijl of de tekst)."
+        }
+      }
+    },
+    "show_image": {
+      "name": "Afbeelding tonen",
+      "description": "Toont een afbeelding, een bewegende GIF of een video op de fan.",
+      "fields": {
+        "device_id": {
+          "name": "Fans",
+          "description": "Op welke fans (leeg: alle)."
+        },
+        "path": {
+          "name": "Bestand",
+          "description": "Pad van een afbeelding, GIF of video op Home Assistant, in een map uit allowlist_external_dirs (bv. /media/…)."
+        },
+        "url": {
+          "name": "URL",
+          "description": "Afbeelding, GIF of video om te downloaden."
+        },
+        "camera": {
+          "name": "Camera",
+          "description": "Toon een momentopname van deze camera."
+        },
+        "media": {
+          "name": "Media",
+          "description": "Afbeelding, GIF of video uit de mediabibliotheek."
+        },
+        "text": {
+          "name": "Tekst",
+          "description": "Tekst over het plaatje heen (over elk beeldje van een animatie), bv. \"Regen over 15 minuten\" over een regenradar; achter de letters wordt het plaatje donkerder."
+        },
+        "color": {
+          "name": "Tekstkleur",
+          "description": "Kleur van de tekst (standaard wit)."
+        },
+        "font_size": {
+          "name": "Maximale lettergrootte",
+          "description": "Grens in pixels (0: zo groot als past)."
+        },
+        "show_seconds": {
+          "name": "Duur",
+          "description": "Een melding: zoveel seconden te zien, de fan herhaalt intussen alleen deze en gaat daarna terug naar wat hij speelde; een fan die uit stond gaat weer uit. 0: laten staan (live: 10 s)."
+        },
+        "priority": {
+          "name": "Prioriteit",
+          "description": "Voor een melding met een duur: een lagere wacht tot de huidige klaar is, een hogere onderbreekt hem (die komt daarna terug). Standaard 0."
+        },
+        "mode": {
+          "name": "Modus",
+          "description": "Opslaan op de fan, of live tonen zonder opslaan."
+        },
+        "name": {
+          "name": "Bestandsnaam",
+          "description": "Naam op de fan; dezelfde naam vervangt het eerdere bestand."
+        },
+        "scale": {
+          "name": "Schaal",
+          "description": "1 = vult het beeld."
+        },
+        "x_offset": {
+          "name": "Horizontaal verschuiven",
+          "description": "-1 … 1."
+        },
+        "y_offset": {
+          "name": "Verticaal verschuiven",
+          "description": "-1 … 1."
+        },
+        "mirror": {
+          "name": "Spiegelen",
+          "description": "Spiegel de afbeelding."
+        },
+        "max_frames": {
+          "name": "Maximaal aantal beelden",
+          "description": "Hoogstens zoveel beelden van een GIF of video (standaard 100 voor video, 200 voor GIF)."
+        },
+        "fps": {
+          "name": "Beelden per seconde",
+          "description": "Voor video's: zoveel beelden per seconde (standaard 10)."
+        }
+      }
+    },
+    "show_ai": {
+      "name": "AI-plaatje tonen",
+      "description": "Laat een AI een plaatje tekenen (ComfyUI bij je thuis, of een AI Task van Home Assistant zoals Google) en toont het op de fan, stilstaand of draaiend om zijn eigen as. Werkt met de P56-add-on.",
+      "fields": {
+        "device_id": {
+          "name": "Fans",
+          "description": "Fans waarop het verschijnt (leeg: alle)."
+        },
+        "prompt": {
+          "name": "Opdracht",
+          "description": "Wat er getekend moet worden. Een zwarte achtergrond en een groot onderwerp in het midden worden er zelf bij gevraagd."
+        },
+        "kind": {
+          "name": "Soort",
+          "description": "Een stilstaand plaatje, het object dat om zijn eigen as draait (als op een draaiplateau), of een echt 3D-model ervan, van alle kanten (alleen met ComfyUI; duurt de eerste keer zo'n 2 minuten, daarna wordt het bewaard)."
+        },
+        "art_style": {
+          "name": "Stijl",
+          "description": "Hoe het getekend wordt: een kant-en-klare stijl, of typ er zelf een (bv. Van Gogh). Leeg: zoals de opdracht zegt."
+        },
+        "entity_id": {
+          "name": "AI Task",
+          "description": "Welke AI het plaatje maakt. Leeg: ComfyUI als die in de add-on is ingesteld (ComfyUI-adres), anders de eerste AI Task die het kan; is ComfyUI niet bereikbaar, dan neemt de AI Task het over. Alleen ComfyUI: schakel naar YAML en vul comfyui in."
+        },
+        "text": {
+          "name": "Tekst",
+          "description": "Tekst over het plaatje heen, bijvoorbeeld een prijs of een melding. De AI maakt dan een heel plaatje van de opdracht als achtergrond (zonder tekst), en de tekst komt erover op een verduisterde band. Soort telt dan niet."
+        },
+        "color": {
+          "name": "Tekstkleur",
+          "description": "Kleur van de tekst (een naam, #rrggbb of r,g,b)."
+        },
+        "icon": {
+          "name": "Icoon",
+          "description": "Icoon over het AI-plaatje, alleen zonder tekst; met tekst staat alleen de tekst erop."
+        },
+        "value": {
+          "name": "Waarde",
+          "description": "Kleur de tekst naar deze waarde: groen bij het minimum, rood bij het maximum."
+        },
+        "value_min": {
+          "name": "Minimum",
+          "description": "Waarde die groen is."
+        },
+        "value_max": {
+          "name": "Maximum",
+          "description": "Waarde die rood is."
+        },
+        "invert_colors": {
+          "name": "Kleuren omdraaien",
+          "description": "Rood bij het minimum en groen bij het maximum."
+        },
+        "gauge": {
+          "name": "Meterring",
+          "description": "Een ring langs de rand die volloopt als een meter, van value_min tot value_max."
+        },
+        "font_size": {
+          "name": "Lettergrootte",
+          "description": "Grootste lettergrootte in pixels (0: zo groot als past)."
+        },
+        "fresh": {
+          "name": "Nieuw plaatje",
+          "description": "Altijd een nieuw plaatje laten maken; anders hergebruikt dezelfde opdracht het eerder gemaakte plaatje (scheelt kosten)."
+        },
+        "show_seconds": {
+          "name": "Duur",
+          "description": "Een melding: zoveel seconden te zien, de fan herhaalt intussen alleen deze en gaat daarna terug naar wat hij speelde; een fan die uit stond gaat weer uit. 0: laten staan (live: 10 s)."
+        },
+        "priority": {
+          "name": "Prioriteit",
+          "description": "Voor een melding met een duur: een lagere wacht tot de huidige klaar is, een hogere onderbreekt hem (die komt daarna terug). Standaard 0."
+        },
+        "mode": {
+          "name": "Modus",
+          "description": "Op de fan opslaan, of live tonen zonder op te slaan."
+        },
+        "name": {
+          "name": "Bestandsnaam",
+          "description": "Naam op de fan; dezelfde naam vervangt het eerdere bestand."
+        }
+      }
+    },
+    "play_file": {
+      "name": "Bestand afspelen",
+      "description": "Speelt een bestand op de fan af, op plek of naam.",
+      "fields": {
+        "device_id": {
+          "name": "Fan",
+          "description": "De fan."
+        },
+        "slot": {
+          "name": "Plek",
+          "description": "Plek in de afspeellijst (1 = eerste)."
+        },
+        "name": {
+          "name": "Naam",
+          "description": "Bestandsnaam op de fan."
+        }
+      }
+    },
+    "delete_file": {
+      "name": "Bestand wissen",
+      "description": "Wist een bestand van de fan, op plek of naam.",
+      "fields": {
+        "device_id": {
+          "name": "Fan",
+          "description": "De fan."
+        },
+        "slot": {
+          "name": "Plek",
+          "description": "Plek in de afspeellijst (1 = eerste)."
+        },
+        "name": {
+          "name": "Naam",
+          "description": "Bestandsnaam op de fan."
+        }
+      }
+    }
+  }
+}

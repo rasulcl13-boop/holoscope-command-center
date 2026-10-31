@@ -1,0 +1,362 @@
+show_text:
+  fields:
+    device_id:
+      selector:
+        device:
+          multiple: true
+          integration: p56_pov
+    text:
+      example: "0,23 €/kWh"
+      selector:
+        text:
+          multiline: true
+    style:
+      selector:
+        select:
+          options:
+            - alert
+            - warning
+            - info
+            - success
+            - price
+            - clock
+          translation_key: style
+    icon:
+      example: mdi:washing-machine
+      selector:
+        icon:
+    value:
+      example: "{{ states('sensor.energy_price') }}"
+      selector:
+        number:
+          min: -1000000
+          max: 1000000
+          step: any
+          mode: box
+    value_min:
+      example: 0.2
+      selector:
+        number:
+          min: -1000000
+          max: 1000000
+          step: any
+          mode: box
+    value_max:
+      example: 0.35
+      selector:
+        number:
+          min: -1000000
+          max: 1000000
+          step: any
+          mode: box
+    invert_colors:
+      advanced: true
+      selector:
+        boolean:
+    gauge:
+      selector:
+        boolean:
+    ring:
+      advanced: true
+      selector:
+        boolean:
+    icon_color:
+      advanced: true
+      selector:
+        color_rgb:
+    color:
+      example: "#ffcc00"
+      selector:
+        color_rgb:
+    background:
+      selector:
+        color_rgb:
+    font_size:
+      advanced: true
+      selector:
+        number:
+          min: 0
+          max: 400
+          unit_of_measurement: px
+          mode: box
+    show_seconds:
+      example: 60
+      selector:
+        number:
+          min: 0
+          max: 86400
+          unit_of_measurement: s
+          mode: box
+    priority:
+      selector:
+        number:
+          min: -100
+          max: 100
+          mode: box
+    mode:
+      selector:
+        select:
+          options:
+            - upload
+            - cast
+          translation_key: mode
+    name:
+      advanced: true
+      example: energy
+      selector:
+        text:
+
+show_image:
+  fields:
+    device_id:
+      selector:
+        device:
+          multiple: true
+          integration: p56_pov
+    path:
+      example: /media/p56/logo.png
+      selector:
+        text:
+    url:
+      example: https://example.com/picture.png
+      selector:
+        text:
+          type: url
+    camera:
+      selector:
+        entity:
+          domain: camera
+    media:
+      selector:
+        media:
+          accept:
+            - image/*
+            - video/*
+    text:
+      example: Rain in 15 minutes
+      selector:
+        text:
+    color:
+      advanced: true
+      example: "#ffffff"
+      selector:
+        color_rgb:
+    font_size:
+      advanced: true
+      selector:
+        number:
+          min: 0
+          max: 400
+          unit_of_measurement: px
+          mode: box
+    show_seconds:
+      selector:
+        number:
+          min: 0
+          max: 86400
+          unit_of_measurement: s
+          mode: box
+    priority:
+      selector:
+        number:
+          min: -100
+          max: 100
+          mode: box
+    mode:
+      selector:
+        select:
+          options:
+            - upload
+            - cast
+          translation_key: mode
+    name:
+      advanced: true
+      selector:
+        text:
+    scale:
+      advanced: true
+      selector:
+        number:
+          min: 0.1
+          max: 5
+          step: 0.05
+    x_offset:
+      advanced: true
+      selector:
+        number:
+          min: -1
+          max: 1
+          step: 0.01
+    y_offset:
+      advanced: true
+      selector:
+        number:
+          min: -1
+          max: 1
+          step: 0.01
+    mirror:
+      advanced: true
+      selector:
+        boolean:
+    max_frames:
+      advanced: true
+      selector:
+        number:
+          min: 1
+          max: 600
+          mode: box
+    fps:
+      advanced: true
+      selector:
+        number:
+          min: 1
+          max: 30
+          mode: box
+
+show_ai:
+  fields:
+    device_id:
+      selector:
+        device:
+          multiple: true
+          integration: p56_pov
+    prompt:
+      required: true
+      example: a neon jellyfish
+      selector:
+        text:
+          multiline: true
+    kind:
+      selector:
+        select:
+          options:
+            - still
+            - spin
+            - "3d"
+          translation_key: ai_kind
+    art_style:
+      selector:
+        select:
+          custom_value: true
+          options:
+            - free
+            - photo
+            - 3d
+            - cartoon
+            - anime
+            - painting
+            - watercolor
+            - pixel
+            - neon
+            - line
+            - comic
+          translation_key: ai_style
+    entity_id:
+      selector:
+        entity:
+          domain: ai_task
+    text:
+      example: "{{ states('sensor.electricity_price') }} €"
+      selector:
+        text:
+    color:
+      selector:
+        text:
+    icon:
+      example: mdi:flash
+      selector:
+        icon:
+    value:
+      advanced: true
+      selector:
+        number:
+          mode: box
+          step: any
+    value_min:
+      advanced: true
+      selector:
+        number:
+          mode: box
+          step: any
+    value_max:
+      advanced: true
+      selector:
+        number:
+          mode: box
+          step: any
+    invert_colors:
+      advanced: true
+      selector:
+        boolean:
+    gauge:
+      selector:
+        boolean:
+    font_size:
+      advanced: true
+      selector:
+        number:
+          min: 0
+          max: 400
+    fresh:
+      advanced: true
+      selector:
+        boolean:
+    show_seconds:
+      selector:
+        number:
+          min: 0
+          max: 86400
+          unit_of_measurement: s
+          mode: box
+    priority:
+      selector:
+        number:
+          min: -100
+          max: 100
+          mode: box
+    mode:
+      selector:
+        select:
+          options:
+            - upload
+            - cast
+          translation_key: mode
+    name:
+      advanced: true
+      selector:
+        text:
+
+play_file:
+  fields:
+    device_id:
+      required: true
+      selector:
+        device:
+          integration: p56_pov
+    slot:
+      selector:
+        number:
+          min: 1
+          max: 255
+          mode: box
+    name:
+      example: logo.mp4
+      selector:
+        text:
+
+delete_file:
+  fields:
+    device_id:
+      required: true
+      selector:
+        device:
+          integration: p56_pov
+    slot:
+      selector:
+        number:
+          min: 1
+          max: 255
+          mode: box
+    name:
+      selector:
+        text:

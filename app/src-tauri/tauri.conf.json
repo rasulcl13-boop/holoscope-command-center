@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "P56 Studio",
+  "version": "0.3.32",
+  "identifier": "nl.trackerr.p56studio",
+  "build": {
+    "frontendDist": "../src",
+    "beforeBuildCommand": "npm --prefix ui run bundle"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "title": "P56 Studio",
+        "width": 1180,
+        "height": 800,
+        "minWidth": 380,
+        "minHeight": 560,
+        "backgroundColor": "#060708"
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self' ipc: http://ipc.localhost; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob: mediastream:; font-src 'self' data:; connect-src 'self' ipc: http://ipc.localhost http: https:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+      "dangerousDisableAssetCspModification": ["style-src"]
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "publisher": "trackerr",
+    "shortDescription": "Control for P56 / Holoscope hologram fans",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "windows": {
+      "nsis": { "installMode": "currentUser", "languages": ["Dutch", "English"] }
+    }
+  }
+}

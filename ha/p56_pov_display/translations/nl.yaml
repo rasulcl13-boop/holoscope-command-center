@@ -1,0 +1,45 @@
+configuration:
+  fan_ip:
+    name: IP-adressen van fans
+    description: >-
+      Optioneel. Stuur het zoekpakket ook rechtstreeks naar deze fans (voor
+      fans in een ander subnet). Normaal worden de fans via broadcast gevonden.
+  advertise_ip:
+    name: Aangekondigd IP-adres
+    description: >-
+      Optioneel. Het adres waarmee de fans terug moeten verbinden. Leeg = elke
+      netwerkkaart kondigt zijn eigen adres aan.
+  lan_api:
+    name: API bereikbaar op het netwerk
+    description: >-
+      Uit (standaard): alleen Home Assistant zelf (integratie, rest_command,
+      het paneel) kan de HTTP-API op poort 8765 gebruiken. Aan: het hele
+      netwerk (apps of scripts op andere computers); beveilig het dan met een
+      API-token.
+  api_token:
+    name: API-token
+    description: >-
+      Optioneel. Als dit is ingevuld, moeten apparaten op het netwerk het
+      meesturen, als header "Authorization: Bearer <token>" of als
+      "?token=<token>" in de URL. Home Assistant zelf en het paneel hebben het
+      niet nodig.
+  simulate:
+    name: Virtuele fan
+    description: Start een gesimuleerde P56-fan, om alles zonder hardware te proberen.
+  comfyui_url:
+    name: ComfyUI-adres
+    description: >-
+      Optioneel. Maak AI-plaatjes met ComfyUI op een computer in huis, bv.
+      http://192.168.1.20:8188 (start ComfyUI met --listen; het heeft het
+      model Qwen Image 2.1 nodig). Er gaat niets je netwerk uit. Staat die
+      computer uit, dan wordt de AI Task van Home Assistant (bv. Google)
+      gebruikt.
+  comfyui_size:
+    name: Grootte ComfyUI-plaatjes
+    description: >-
+      Optioneel. Breedte en hoogte van ComfyUI's plaatjes in pixels
+      (256-1536, standaard 768). Een P56 toont zo'n 344 pixels breed, meer
+      kost alleen tijd.
+  log_level:
+    name: Logniveau
+    description: Hoeveel de add-on in zijn log schrijft.

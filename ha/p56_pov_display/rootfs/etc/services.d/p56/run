@@ -1,0 +1,43 @@
+#!/usr/bin/with-contenv bashio
+# shellcheck shell=bash
+# P56 POV Display: start p56-server with the add-on options.
+
+args=(--http-port 8765 --tcp-port 6666 --discovery)
+
+for ip in $(bashio::config 'fan_ip'); do
+    args+=(--fan "${ip}")
+done
+if bashio::config.has_value 'advertise_ip'; then
+    args+=(--ip "$(bashio::config 'advertise_ip')")
+fi
+# The virtual fan follows the 'simulate' option live: the Supervisor API has the saved
+# options at once, /data/options.json only after a restart.
+args+=(--options-file /data/options.json --options-url http://supervisor/addons/self/info)
+# previews of uploaded files, kept across restarts
+args+=(--thumb-dir /data/thumbs)
+# real 3D models made by ComfyUI, kept across restarts
+args+=(--ai-dir /data/ai)
+# p56-server answers only this machine and Home Assistant unless --lan is given
+if bashio::config.true 'lan_api'; then
+    args+=(--lan)
+fi
+# Clients on the network (not Home Assistant itself) must send this token.
+if bashio::config.has_value 'api_token'; then
+    # via the environment, so the token does not show up in the process list
+    export P56_API_TOKEN="$(bashio::config 'api_token')"
+elif bashio::config.true 'lan_api'; then
+    bashio::log.warning "lan_api is on without an api_token: anyone on your network can control the fans"
+fi
+# AI pictures from ComfyUI on a computer in the house (Home Assistant's AI is the fallback)
+if bashio::config.has_value 'comfyui_url'; then
+    args+=(--comfyui "$(bashio::config 'comfyui_url')")
+    if bashio::config.has_value 'comfyui_size'; then
+        args+=(--comfyui-size "$(bashio::config 'comfyui_size')")
+    fi
+fi
+# 'path' in /api/show may only read pictures from these (read-only) folders.
+args+=(--media-dir /media --media-dir /share)
+
+export RUST_LOG="$(bashio::config 'log_level' 'info')"
+bashio::log.info "Starting p56-server $(p56-server --version | cut -d' ' -f2)"
+exec /usr/bin/p56-server "${args[@]}"

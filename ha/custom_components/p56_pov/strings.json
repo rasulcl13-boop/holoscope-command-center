@@ -1,0 +1,513 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "P56 POV server",
+        "description": "Address of the P56 POV Display add-on (p56-server). With the add-on on this Home Assistant: 127.0.0.1 and port 8765.",
+        "data": {
+          "host": "Host",
+          "port": "Port"
+        },
+        "data_description": {
+          "host": "Host name or IP address where p56-server runs.",
+          "port": "HTTP port of p56-server (8765 by default)."
+        }
+      },
+      "hassio_confirm": {
+        "title": "P56 POV via add-on",
+        "description": "Connect Home Assistant to the P56 POV fans of the {addon} add-on?"
+      },
+      "reconfigure": {
+        "title": "P56 POV server",
+        "data": {
+          "host": "Host",
+          "port": "Port"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot reach p56-server on this address.",
+      "old_server": "This is the 1.x add-on. Update the P56 POV Display add-on to 2.0 or newer.",
+      "unknown": "Unexpected error."
+    },
+    "abort": {
+      "already_configured": "This server is already set up.",
+      "reconfigure_successful": "Saved."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Defaults for text",
+        "data": {
+          "mode": "How to show",
+          "show_seconds": "Text entity: remove after (0 = keep)",
+          "notify_seconds": "Notifications: show for",
+          "color": "Text colour",
+          "background": "Background colour"
+        },
+        "data_description": {
+          "mode": "Store on the fan (upload) or stream live without storing (cast).",
+          "color": "#rrggbb, r,g,b or a colour name.",
+          "background": "#rrggbb, r,g,b or a colour name."
+        }
+      }
+    }
+  },
+  "selector": {
+    "mode": {
+      "options": {
+        "upload": "Store on the fan",
+        "cast": "Live (not stored)"
+      }
+    },
+    "style": {
+      "options": {
+        "alert": "Alert (red)",
+        "warning": "Warning (orange)",
+        "info": "Info (blue)",
+        "success": "Done (green)",
+        "price": "Price (colour by value)",
+        "clock": "Clock"
+      }
+    },
+    "ai_kind": {
+      "options": {
+        "still": "Still",
+        "spin": "Turning round its own axis",
+        "3d": "Real 3D model (ComfyUI, ~2 min)"
+      }
+    },
+    "ai_style": {
+      "options": {
+        "free": "As described",
+        "photo": "Photo",
+        "3d": "3D render",
+        "cartoon": "Cartoon",
+        "anime": "Anime",
+        "painting": "Painting",
+        "watercolor": "Watercolour",
+        "pixel": "Pixel art",
+        "neon": "Neon",
+        "line": "Line drawing",
+        "comic": "Comic"
+      }
+    }
+  },
+  "entity": {
+    "light": {
+      "display": {
+        "name": "Display"
+      }
+    },
+    "switch": {
+      "playing": {
+        "name": "Playing"
+      },
+      "breath": {
+        "name": "Breathing light"
+      },
+      "autostart": {
+        "name": "Start on power"
+      }
+    },
+    "select": {
+      "file": {
+        "name": "File"
+      },
+      "repeat": {
+        "name": "Repeat",
+        "state": {
+          "all": "All files",
+          "one": "One file"
+        }
+      }
+    },
+    "number": {
+      "angle": {
+        "name": "Picture angle"
+      },
+      "volume": {
+        "name": "Volume"
+      }
+    },
+    "sensor": {
+      "current_file": {
+        "name": "Playing file"
+      },
+      "file_count": {
+        "name": "Files"
+      },
+      "ip": {
+        "name": "IP address"
+      },
+      "last_error": {
+        "name": "Last error"
+      },
+      "fans_connected": {
+        "name": "Connected fans"
+      },
+      "last_activity": {
+        "name": "Last activity"
+      }
+    },
+    "button": {
+      "refresh": {
+        "name": "Refresh"
+      },
+      "delete_current": {
+        "name": "Delete playing file"
+      }
+    },
+    "text": {
+      "text": {
+        "name": "Text"
+      }
+    },
+    "notify": {
+      "message": {
+        "name": "Message"
+      }
+    },
+    "image": {
+      "shown": {
+        "name": "Shown",
+        "state_attributes": {
+          "live": {
+            "name": "Live",
+            "state": {
+              "true": "Yes",
+              "false": "No"
+            }
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "server_unreachable": {
+      "message": "P56 server not reachable: {error}"
+    },
+    "command_failed": {
+      "message": "P56 command failed: {error}"
+    },
+    "fan_offline": {
+      "message": "The fan is not connected."
+    },
+    "not_loaded": {
+      "message": "No P56 POV server is set up."
+    },
+    "unknown_device": {
+      "message": "Device {device} is not a P56 POV device."
+    },
+    "file_not_on_fan": {
+      "message": "No file named {name} on the fan."
+    },
+    "path_not_allowed": {
+      "message": "{path} is not in allowlist_external_dirs."
+    },
+    "file_not_found": {
+      "message": "File {path} not found."
+    },
+    "file_too_large": {
+      "message": "{path} is too large."
+    },
+    "download_failed": {
+      "message": "Download of {url} failed: {error}"
+    },
+    "media_unresolvable": {
+      "message": "Media {media} cannot be resolved."
+    },
+    "one_source": {
+      "message": "Give exactly one of path, url, camera or media."
+    },
+    "no_source": {
+      "message": "No picture given."
+    },
+    "value_needs_range": {
+      "message": "Give value_min and value_max together with value."
+    },
+    "video_needs_ffmpeg": {
+      "message": "Videos need ffmpeg, which was not found."
+    },
+    "video_failed": {
+      "message": "Video could not be converted: {error}"
+    }
+  },
+  "services": {
+    "show_text": {
+      "name": "Show text",
+      "description": "Shows text on the fan, sized to fit the round display, optionally with an icon, a ready-made style and a colour that follows a value.",
+      "fields": {
+        "device_id": {
+          "name": "Fans",
+          "description": "Fans to show it on (empty: all)."
+        },
+        "text": {
+          "name": "Text",
+          "description": "The text; a new line starts a new line. Optional with an icon or style (the clock style shows the current time)."
+        },
+        "color": {
+          "name": "Colour",
+          "description": "Text colour."
+        },
+        "background": {
+          "name": "Background",
+          "description": "Background colour."
+        },
+        "font_size": {
+          "name": "Maximum font size",
+          "description": "Cap in pixels (0: as large as fits)."
+        },
+        "show_seconds": {
+          "name": "Duration",
+          "description": "A message: shown this many seconds, the fan repeats only this meanwhile and then returns to what it played; a fan that was off goes off again. 0: keep (live: 10 s)."
+        },
+        "priority": {
+          "name": "Priority",
+          "description": "For a message with a duration: a lower one waits until the one showing is done, a higher one interrupts it (that one comes back afterwards). Default 0."
+        },
+        "mode": {
+          "name": "Mode",
+          "description": "Store on the fan, or show live without storing."
+        },
+        "name": {
+          "name": "File name",
+          "description": "Name on the fan; the same name replaces the earlier file."
+        },
+        "style": {
+          "name": "Style",
+          "description": "Ready-made look with colours, icon and a ring along the rim."
+        },
+        "icon": {
+          "name": "Icon",
+          "description": "Icon above the text (or alone), e.g. mdi:washing-machine."
+        },
+        "value": {
+          "name": "Value",
+          "description": "Colours the text from green (at the minimum) via yellow to red (at the maximum)."
+        },
+        "value_min": {
+          "name": "Minimum",
+          "description": "Value that is green."
+        },
+        "value_max": {
+          "name": "Maximum",
+          "description": "Value that is red."
+        },
+        "invert_colors": {
+          "name": "Reverse colours",
+          "description": "Red at the minimum and green at the maximum."
+        },
+        "gauge": {
+          "name": "Meter ring",
+          "description": "A ring along the rim filled like a meter, from value_min to value_max."
+        },
+        "ring": {
+          "name": "Ring",
+          "description": "Coloured ring along the rim (styles have one already)."
+        },
+        "icon_color": {
+          "name": "Icon colour",
+          "description": "Colour of the icon (default: from the style or the text)."
+        }
+      }
+    },
+    "show_image": {
+      "name": "Show picture",
+      "description": "Shows a picture, an animated GIF or a video on the fan.",
+      "fields": {
+        "device_id": {
+          "name": "Fans",
+          "description": "Fans to show it on (empty: all)."
+        },
+        "path": {
+          "name": "File",
+          "description": "Path of a picture, GIF or video on Home Assistant, in a folder of allowlist_external_dirs (e.g. /media/…)."
+        },
+        "url": {
+          "name": "URL",
+          "description": "Picture, GIF or video to download."
+        },
+        "camera": {
+          "name": "Camera",
+          "description": "Show a snapshot of this camera."
+        },
+        "media": {
+          "name": "Media",
+          "description": "Picture, GIF or video from the media library."
+        },
+        "text": {
+          "name": "Text",
+          "description": "Text written over the picture (over every frame of an animation), e.g. \"Rain in 15 minutes\" over a rain radar; the picture is darkened behind the letters."
+        },
+        "color": {
+          "name": "Text colour",
+          "description": "Colour of the text (default white)."
+        },
+        "font_size": {
+          "name": "Maximum font size",
+          "description": "Cap in pixels (0: as large as fits)."
+        },
+        "show_seconds": {
+          "name": "Duration",
+          "description": "A message: shown this many seconds, the fan repeats only this meanwhile and then returns to what it played; a fan that was off goes off again. 0: keep (live: 10 s)."
+        },
+        "priority": {
+          "name": "Priority",
+          "description": "For a message with a duration: a lower one waits until the one showing is done, a higher one interrupts it (that one comes back afterwards). Default 0."
+        },
+        "mode": {
+          "name": "Mode",
+          "description": "Store on the fan, or show live without storing."
+        },
+        "name": {
+          "name": "File name",
+          "description": "Name on the fan; the same name replaces the earlier file."
+        },
+        "scale": {
+          "name": "Scale",
+          "description": "1 = fill the display."
+        },
+        "x_offset": {
+          "name": "Horizontal shift",
+          "description": "-1 … 1."
+        },
+        "y_offset": {
+          "name": "Vertical shift",
+          "description": "-1 … 1."
+        },
+        "mirror": {
+          "name": "Mirror",
+          "description": "Mirror the picture."
+        },
+        "max_frames": {
+          "name": "Maximum frames",
+          "description": "At most this many frames of a GIF or video (default 100 for video, 200 for GIF)."
+        },
+        "fps": {
+          "name": "Frames per second",
+          "description": "For videos: frames taken per second (default 10)."
+        }
+      }
+    },
+    "show_ai": {
+      "name": "Show AI picture",
+      "description": "Has an AI draw a picture (ComfyUI in your house, or a Home Assistant AI Task such as Google) and shows it on the fan, still or turning round its own axis. Needs the P56 add-on.",
+      "fields": {
+        "device_id": {
+          "name": "Fans",
+          "description": "Fans to show it on (empty: all)."
+        },
+        "prompt": {
+          "name": "Prompt",
+          "description": "What to draw. A black background and a bold, centred subject are asked for by themselves."
+        },
+        "kind": {
+          "name": "Kind",
+          "description": "A still picture, the object turning round its own axis (as on a turntable), or a real 3D model of it seen from all sides (only with ComfyUI; takes about 2 minutes the first time, after that it is kept)."
+        },
+        "art_style": {
+          "name": "Style",
+          "description": "How it is drawn: a ready-made style, or type your own (e.g. Van Gogh). Empty: as the prompt says."
+        },
+        "entity_id": {
+          "name": "AI Task",
+          "description": "Which AI makes the picture. Empty: ComfyUI when it is set up in the add-on (ComfyUI address), otherwise the first AI Task that can; when ComfyUI cannot be reached the AI Task takes over. Only ComfyUI: switch to YAML and enter comfyui."
+        },
+        "text": {
+          "name": "Text",
+          "description": "Text written over the picture, e.g. a price or a notification. The AI then makes a whole picture of the prompt as background (without writing), and the text goes over it on a darkened band. Kind is ignored then."
+        },
+        "color": {
+          "name": "Text colour",
+          "description": "Colour of the text (a name, #rrggbb or r,g,b)."
+        },
+        "icon": {
+          "name": "Icon",
+          "description": "Icon over the AI picture, only without text; with text only the text is shown."
+        },
+        "value": {
+          "name": "Value",
+          "description": "Colour the text by this value: green at the minimum, red at the maximum."
+        },
+        "value_min": {
+          "name": "Minimum",
+          "description": "Value that is green."
+        },
+        "value_max": {
+          "name": "Maximum",
+          "description": "Value that is red."
+        },
+        "invert_colors": {
+          "name": "Reverse colours",
+          "description": "Red at the minimum and green at the maximum."
+        },
+        "gauge": {
+          "name": "Meter ring",
+          "description": "A ring along the rim filled like a meter, from value_min to value_max."
+        },
+        "font_size": {
+          "name": "Font size",
+          "description": "Largest letter size in pixels (0: as large as fits)."
+        },
+        "fresh": {
+          "name": "New picture",
+          "description": "Always have a new picture made; otherwise the same prompt reuses the picture made before (saves cost)."
+        },
+        "show_seconds": {
+          "name": "Duration",
+          "description": "A message: shown this many seconds, the fan repeats only this meanwhile and then returns to what it played; a fan that was off goes off again. 0: keep (live: 10 s)."
+        },
+        "priority": {
+          "name": "Priority",
+          "description": "For a message with a duration: a lower one waits until the one showing is done, a higher one interrupts it (that one comes back afterwards). Default 0."
+        },
+        "mode": {
+          "name": "Mode",
+          "description": "Store on the fan, or show live without storing."
+        },
+        "name": {
+          "name": "File name",
+          "description": "Name on the fan; the same name replaces the earlier file."
+        }
+      }
+    },
+    "play_file": {
+      "name": "Play file",
+      "description": "Plays a file on the fan, by slot or name.",
+      "fields": {
+        "device_id": {
+          "name": "Fan",
+          "description": "The fan."
+        },
+        "slot": {
+          "name": "Slot",
+          "description": "Position in the playlist (1 = first)."
+        },
+        "name": {
+          "name": "Name",
+          "description": "File name on the fan."
+        }
+      }
+    },
+    "delete_file": {
+      "name": "Delete file",
+      "description": "Deletes a file from the fan, by slot or name.",
+      "fields": {
+        "device_id": {
+          "name": "Fan",
+          "description": "The fan."
+        },
+        "slot": {
+          "name": "Slot",
+          "description": "Position in the playlist (1 = first)."
+        },
+        "name": {
+          "name": "Name",
+          "description": "File name on the fan."
+        }
+      }
+    }
+  }
+}
